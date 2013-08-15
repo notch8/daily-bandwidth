@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app='dailybandwidth'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-type'>
+    <title>Project</title>
+    <link rel="stylesheet" type="text/css" href="/assets/main-390a5b617d68beb8d89516d1acebce4e.css">
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js' type='text/javascript'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js' type='text/javascript'></script>
+    <script src='https://cdn.firebase.com/v0/firebase.js' type='text/javascript'></script>
+    <script src='https://cdn.firebase.com/v0/firebase-simple-login.js' type='text/javascript'></script>
+    <script src='http://firebase.github.io/angularFire/angularFire.js' type='text/javascript'></script>
+    <script type="text/javascript" src="/assets/main-ba474c0ad1ecd6e927bfed60eae05950.js"></script>
+    <link href='/favicon.ico' rel='shortcut icon'>
+    <body>
+      <div id='topNav'>
+        <div class='row'>
+          <div class='navContainer pull-right'>
+            <ul class='nav nav-pills pull-right'>
+              
+              
+              <li>
+                <a href='/index.html'>Home</a>
+              </li>
+              
+              
+              
+              <li>
+                <a href='/project.html'>Project</a>
+              </li>
+              
+              
+              <li ng-controller='app.LogoutController'>
+                <button class='btn' ng-click='logout()' ng-hide='shouldHide'>Logout</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id='mainContent' ng-controller='app.MainController'>
+        <div ng-controller="app.TransitionEditModalController">
+    <button class="btn" ng-click="open()">Open me!</button>
+    <div modal="shouldBeOpen" close="close()" options="opts">
+        <div class="modal-header">
+            <h3>I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items"></li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+        </div>
+    </div>
+</div>
+      </div>
+      <div id='footer'>
+        <div class='row'>
+          <div class='span11 offset1'>
+            copyright © 2013 Notch8 and licensed under the
+            <a href='http://creativecommons.org/licenses/by-sa/3.0/us/'>creative commons attribution-share alike license</a>
+          </div>
+        </div>
+      </div>
+    </body>
+  </head>
+</html>

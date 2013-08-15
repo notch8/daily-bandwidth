@@ -1,0 +1,14 @@
+@import "backgrounds";
+@import "main_layout_scaffold";
+@import "project";
+
+body{
+  font-family: 'Helvetica Neue', Arial, 'Lucida Grande', sans-serif;
+
+  #topNav .row, #mainContent .row{
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+

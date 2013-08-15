@@ -1,0 +1,52 @@
+---
+project_name: 'Daily Bandwidth'
+navigation:
+  - text: 'Home'
+    url: '/index.html'
+  - text: 'Project'
+    url: '/project.html'
+---
+
+!!!
+%html{'ng-app'=>'dailybandwidth'}
+  %head
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-type"}/
+    %title {{ page.title }}
+
+    {{ 'main' | stylesheet }}
+    %script{type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js'}
+    %script{type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js'}
+    %script{type: 'text/javascript', src: 'https://cdn.firebase.com/v0/firebase.js'}
+    %script{type: 'text/javascript', src: 'https://cdn.firebase.com/v0/firebase-simple-login.js'}
+    %script{type: 'text/javascript', src: 'http://firebase.github.io/angularFire/angularFire.js'}
+
+    {{ 'main' | javascript }}
+
+    %link{:href => "/favicon.ico", :rel => "shortcut icon"}/
+
+    %body
+      #topNav
+        .row
+          .navContainer.pull-right
+            %ul.nav.nav-pills.pull-right
+              {% for link in page.navigation %} 
+              {% if page.url == link.url %} 
+              %li{class: 'active'}
+                %a{:href=> "#"}
+                  {{link.text}}
+              {% else %} 
+              %li
+                %a{:href => "{{link.url}}"} {{link.text}}
+              {% endif %} 
+              {% endfor %} 
+
+              %li{'ng-controller'=>'app.LogoutController'}
+                %button{'ng-hide'=>'shouldHide', 'ng-click'=>'logout()', class: 'btn'} Logout
+      #mainContent{'ng-controller'=>'app.MainController'}
+        {{ content }}
+      #footer
+        .row
+          .span11.offset1
+            copyright © 2013 Notch8 and licensed under the
+            %a{:href => "http://creativecommons.org/licenses/by-sa/3.0/us/"} creative commons attribution-share alike license
+
