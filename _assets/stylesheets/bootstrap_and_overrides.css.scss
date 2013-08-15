@@ -12,3 +12,29 @@ body{
   }
 }
 
+[class^="icon-"]{
+  background-image: url("../images/glyphicons-halflings.png");
+}
+
+table.bandwidths{
+  td{
+    height: 45px;
+    position: relative;
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px;
+
+    i{
+      position: absolute;
+      left: 5px;
+    }
+    .icon-chevron-down{
+      bottom: 5px;
+    }
+
+    .icon-chevron-up{
+      top: 5px;
+    }
+  }
+}

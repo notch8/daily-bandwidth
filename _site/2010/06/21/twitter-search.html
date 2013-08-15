@@ -3,18 +3,22 @@
   <head>
     <meta content='text/html; charset=utf-8' http-equiv='Content-type'>
     <title>Counting Retweets - Or Why Is This Hard</title>
-    <link rel="stylesheet" type="text/css" href="/assets/main-390a5b617d68beb8d89516d1acebce4e.css">
+    <link rel="stylesheet" type="text/css" href="/assets/main-8aaf5f884f70fe9114c85a8d4ded2b13.css">
+    <link rel="stylesheet" type="text/css" href="/assets/bootstrap_and_overrides-f12bffbf92f42a6e20cecda4df0ec460.css">
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js' type='text/javascript'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js' type='text/javascript'></script>
     <script src='https://cdn.firebase.com/v0/firebase.js' type='text/javascript'></script>
     <script src='https://cdn.firebase.com/v0/firebase-simple-login.js' type='text/javascript'></script>
     <script src='http://firebase.github.io/angularFire/angularFire.js' type='text/javascript'></script>
-    <script type="text/javascript" src="/assets/main-ba474c0ad1ecd6e927bfed60eae05950.js"></script>
+    <script type="text/javascript" src="/assets/main-9fa0eac1176f1a3dfa041abe7e77f9e0.js"></script>
     <link href='/favicon.ico' rel='shortcut icon'>
     <body>
       <div id='topNav'>
         <div class='row'>
-          <div class='navContainer pull-right'>
+          <div class='pull-left'>
+            <img src="/assets/logo_notch8_small-134fea48970739c47a236eb39ce1478b.gif">
+          </div>
+          <div class='navContainer pull-right' ng-controller='app.TopNavController'>
             <ul class='nav nav-pills pull-right'>
               
               
@@ -29,8 +33,11 @@
               </li>
               
               
-              <li ng-controller='app.LogoutController'>
-                <button class='btn' ng-click='logout()' ng-hide='shouldHide'>Logout</button>
+              <li ng-controller='app.LogoutController' ng-show='shouldShowLogout'>
+                <a class='btn' ng-click='logout()'>Logout</a>
+              </li>
+              <li ng-show='shouldShowSettings'>
+                <a class='btn' href='/project.html#/settings'>Settings</a>
               </li>
             </ul>
           </div>

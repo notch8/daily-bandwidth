@@ -11,3 +11,6 @@ maruku:
   png_url: /images/latex
 sass:
   syntax: scss
+
+assets:
+  debug: true

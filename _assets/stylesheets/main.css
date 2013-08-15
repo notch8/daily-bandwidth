@@ -1,5 +1,4 @@
 //= require bootstrap.min
-//= require bootstrap_and_overrides
 
 div[dropzone] {
     border: 2px dashed #bbb;

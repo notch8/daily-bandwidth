@@ -1,0 +1,70 @@
+---
+layout: partial
+title: Project 
+---
+
+.row
+  .span6.offset3
+
+    %h3 Default Bandwidth
+    %p Click once to add one hour.
+    %p Double tap to remove
+    %table.table.bandwidths
+      %tr
+        %th
+          Monday
+        %th
+          Tuesday
+        %th
+          Wednesday
+        %th
+          Thursday
+        %th
+          Friday
+        %th
+          Saturday
+        %th
+          Sunday
+      %tr
+        %td{'ng-controller'=>'app.BandwidthContainerController', 'ng-repeat'=>'weekday in settings.defaultBandwidths', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
+          .incrementors{'ng-show'=>'isEditEnabled'}
+            %i.icon-chevron-down{'ng-click'=>'weekday.hours = weekday.hours - 1'}
+            %i.icon-chevron-up{'ng-click'=>'weekday.hours = weekday.hours + 1'} 
+          {[weekday.hours]}
+  
+    %h3 Manage Projects
+    .row{'ng-repeat'=>'project in settings.projects', 'ng-controller'=>'app.EditableProjectController'}
+      .span2
+        .static{'ng-hide'=>'inEditMode'}
+          {[project.name]}
+        .editable{'ng-show'=>'inEditMode'}
+          %input.span2{type: 'text', value: '{[project.name]}', name: 'project.name', 'ng-model'=>'project.name'}
+      .span3
+        .static{'ng-hide'=>'inEditMode'}
+          {[project.commitment]}/{[project.commitmentScope]}
+        .editable{'ng-show'=>'inEditMode'}
+          %input.span1{type: 'text', value: '{[project.commitment]}', name: 'project.commitment', 'ng-model'=>'project.commitment'}
+          %select.span2{'ng-model'=>'project.commitmentScope', 'name'=>'project.commitmentScope', 'ng-options'=> "value for value in commitmentScopes" }
+      .span1
+        .static{'ng-hide'=>'inEditMode'}
+          %a{'ng-click'=>'enableEdit()'} edit
+          %a{'ng-click'=>'remove()'} remove
+        .editable{'ng-show'=>'inEditMode'}
+          %a{'ng-click'=>'save()'} save
+          %a{'ng-click'=>'cancel()'} cancel
+
+    %a{'ng-click'=>'addNewProject()', class: 'btn'} New
+
+
+    %h3 Sharing
+    %table.table
+      %tr{'ng-repeat'=>'share in settings.sharesWith', 'ng-controller'=>'app.EditableSharingController'}
+        %td {[share.email]}
+        %td 
+          %a{'ng-click'=>'remove()'} remove
+
+    %input{type:'text', name:'newEmail', 'ng-model'=>'newEmail'}
+    %a{'ng-click'=>'addShare()'} Add
+
+
+%button{'ng-click'=>'resetDefaults()'} reset

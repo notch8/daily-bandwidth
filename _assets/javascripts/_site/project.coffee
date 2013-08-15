@@ -3,8 +3,8 @@ value('dailyBandwidthViewFirebaseURL', 'http://dailybandwidth.firebaseIO.com').
 factory('Weeks', (angularFireCollection, dailyBandwidthViewFirebaseURL)->
   angularFireCollection("#{dailyBandwidthViewFirebaseURL}/weeks")
 ).
-factory('SettingsStore', (angularFireCollection, dailyBandwidthViewFirebaseURL)->
-  angularFireCollection("#{dailyBandwidthViewFirebaseURL}/settings")
+factory('DefaultBandwidthStore', (angularFireCollection, dailyBandwidthViewFirebaseURL)->
+  angularFireCollection("#{dailyBandwidthViewFirebaseURL}/default_bandwidths")
 ).
 config(['$interpolateProvider',
   ($interpolateProvider) ->

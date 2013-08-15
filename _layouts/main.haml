@@ -14,6 +14,7 @@ navigation:
     %title {{ page.title }}
 
     {{ 'main' | stylesheet }}
+    {% stylesheet bootstrap_and_overrides %}
     %script{type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js'}
     %script{type: 'text/javascript', src: 'https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js'}
     %script{type: 'text/javascript', src: 'https://cdn.firebase.com/v0/firebase.js'}
@@ -27,7 +28,10 @@ navigation:
     %body
       #topNav
         .row
-          .navContainer.pull-right
+          .pull-left
+            %img{:src => "{{'logo_notch8_small.gif' | asset_path}}"}
+          .navContainer.pull-right{'ng-controller'=>'app.TopNavController'}
+
             %ul.nav.nav-pills.pull-right
               {% for link in page.navigation %} 
               {% if page.url == link.url %} 
@@ -40,8 +44,12 @@ navigation:
               {% endif %} 
               {% endfor %} 
 
-              %li{'ng-controller'=>'app.LogoutController'}
-                %button{'ng-hide'=>'shouldHide', 'ng-click'=>'logout()', class: 'btn'} Logout
+              %li{'ng-controller'=>'app.LogoutController', 'ng-show'=>'shouldShowLogout'}
+                %a{'ng-click'=>'logout()', class: 'btn'} Logout
+              %li{'ng-show'=>'shouldShowSettings'}
+                %a{href: '/project.html#/settings', class: 'btn'} Settings
+
+
       #mainContent{'ng-controller'=>'app.MainController'}
         {{ content }}
       #footer
@@ -49,4 +57,5 @@ navigation:
           .span11.offset1
             copyright © 2013 Notch8 and licensed under the
             %a{:href => "http://creativecommons.org/licenses/by-sa/3.0/us/"} creative commons attribution-share alike license
+
 

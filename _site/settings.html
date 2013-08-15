@@ -1,0 +1,85 @@
+<div class='row'>
+  <div class='span6 offset3'>
+    <h3>Default Bandwidth</h3>
+    <p>Click once to add one hour.</p>
+    <p>Double tap to remove</p>
+    <table class='table bandwidths'>
+      <tr>
+        <th>
+          Monday
+        </th>
+        <th>
+          Tuesday
+        </th>
+        <th>
+          Wednesday
+        </th>
+        <th>
+          Thursday
+        </th>
+        <th>
+          Friday
+        </th>
+        <th>
+          Saturday
+        </th>
+        <th>
+          Sunday
+        </th>
+      </tr>
+      <tr>
+        <td ng-controller='app.BandwidthContainerController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='weekday in settings.defaultBandwidths'>
+          <div class='incrementors' ng-show='isEditEnabled'>
+            <i class='icon-chevron-down' ng-click='weekday.hours = weekday.hours - 1'></i>
+            <i class='icon-chevron-up' ng-click='weekday.hours = weekday.hours + 1'></i>
+          </div>
+          {[weekday.hours]}
+        </td>
+      </tr>
+    </table>
+    <h3>Manage Projects</h3>
+    <div class='row' ng-controller='app.EditableProjectController' ng-repeat='project in settings.projects'>
+      <div class='span2'>
+        <div class='static' ng-hide='inEditMode'>
+          {[project.name]}
+        </div>
+        <div class='editable' ng-show='inEditMode'>
+          <input class='span2' name='project.name' ng-model='project.name' type='text' value='{[project.name]}'>
+        </div>
+      </div>
+      <div class='span3'>
+        <div class='static' ng-hide='inEditMode'>
+          {[project.commitment]}/{[project.commitmentScope]}
+        </div>
+        <div class='editable' ng-show='inEditMode'>
+          <input class='span1' name='project.commitment' ng-model='project.commitment' type='text' value='{[project.commitment]}'>
+          <select class='span2' name='project.commitmentScope' ng-model='project.commitmentScope' ng-options='value for value in commitmentScopes'></select>
+        </div>
+      </div>
+      <div class='span1'>
+        <div class='static' ng-hide='inEditMode'>
+          <a ng-click='enableEdit()'>edit</a>
+          <a ng-click='remove()'>remove</a>
+        </div>
+        <div class='editable' ng-show='inEditMode'>
+          <a ng-click='save()'>save</a>
+          <a ng-click='cancel()'>cancel</a>
+        </div>
+      </div>
+    </div>
+    <a class='btn' ng-click='addNewProject()'>New</a>
+    <h3>Sharing</h3>
+    <table class='table'>
+      <tr ng-controller='app.EditableSharingController' ng-repeat='share in settings.sharesWith'>
+        <td>{[share.email]}</td>
+        <td>
+          <a ng-click='remove()'>remove</a>
+        </td>
+      </tr>
+    </table>
+    <input name='newEmail' ng-model='newEmail' type='text'>
+    <a ng-click='addShare()'>Add</a>
+  </div>
+</div>
+<button ng-click='resetDefaults()'>reset</button>
+
