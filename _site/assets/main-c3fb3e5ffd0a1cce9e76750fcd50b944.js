@@ -54,9 +54,11 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
 }).call(this);
 (function() {
   app.BandwidthContainerController = function($scope) {
-    $scope.isEditEnabled = false;
-    return $scope.$watch('bandwith', function(newVal, oldVal) {
-      return console.log('saved');
+    return $scope.$watch('bandwidth', function(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        $scope.project.days[$scope.$index] = newVal;
+        return $scope.saveBandwidths();
+      }
     });
   };
 
@@ -113,42 +115,34 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
 }).call(this);
 (function() {
   app.HomeController = function($scope) {
-    $scope.$on("angularFireAuth:login", function(evt, user) {
-      $scope.loadUserSettings();
-      return $scope.baseUrl = "https://dailybandwidth.firebaseIO.com/" + $scope.user.login + "/weeks";
+    $scope.$watch('user', function(user) {
+      var url;
+      if (user) {
+        $scope.baseUrl = "https://dailybandwidth.firebaseIO.com/" + $scope.user.login + "/weeks";
+        $scope.today = new XDate();
+        $scope.today_year = $scope.today.getFullYear();
+        $scope.today_week = $scope.today.getWeek();
+        $scope.today_day = $scope.today.getDay();
+        $scope.beginningOfWeek = $scope.today.clone().setWeek($scope.today_week, $scope.today_year);
+        url = "" + $scope.baseUrl + "/" + $scope.today_year + "/" + $scope.today_week;
+        $scope.bandwidthStore = new Firebase(url);
+        return $scope.bandwidthStore.on('value', function(bandwidths) {
+          $scope.bandwidths = bandwidths.val();
+          if ($scope.bandwidths === null) {
+            $scope.loadDefaults();
+            $scope.saveBandwidths();
+          }
+          return $scope.$apply();
+        });
+      }
     });
-    $scope.loadUserSettings = function() {
-      var url;
-      url = "https://dailybandwidth.firebaseIO.com/" + $scope.user.login + "/settings";
-      $scope.settingsStore = new Firebase(url);
-      return $scope.settingsStore.on('value', function(settings) {
-        $scope.settings = settings.val();
-        $scope.$apply;
-        return $scope.loadWeek();
-      });
-    };
-    $scope.loadWeek = function() {
-      var url;
-      $scope.today = new XDate();
-      $scope.today_year = $scope.today.getFullYear();
-      $scope.today_week = $scope.today.getWeek();
-      $scope.today_day = $scope.today.getDay();
-      $scope.beginningOfWeek = $scope.today.clone().setWeek($scope.today_week, $scope.today_year);
-      url = "" + $scope.baseUrl + "/" + $scope.today_year + "/" + $scope.today_week;
-      $scope.bandwidthStore = new Firebase(url);
-      return $scope.bandwidthStore.on('value', function(bandwidths) {
-        $scope.bandwidths = bandwidths.val();
-        if ($scope.bandwidths === null) {
-          $scope.loadDefaults();
-          $scope.bandwidthStore.set($scope.bandwidths);
-        }
-        $scope.$apply;
-        console.log('sssssss');
-        return console.log($scope.bandwidths[0]);
-      });
+    $scope.saveBandwidths = function() {
+      return $scope.bandwidthStore.set($scope.bandwidths);
     };
     $scope.loadDefaults = function() {
       var project, _i, _len, _ref, _results;
+      console.log('loadDefaults');
+      console.log($scope.settings);
       $scope.bandwidths = [];
       _ref = $scope.settings.projects;
       _results = [];
@@ -179,8 +173,7 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
     };
     return $scope.clearWeek = function() {
       $scope.loadDefaults();
-      $scope.bandwidthStore.set($scope.bandwidths);
-      return $scope.$apply;
+      return $scope.saveBandwidths();
     };
   };
 
@@ -208,12 +201,17 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       name: "user"
     });
     $scope.$on("angularFireAuth:login", function(evt, user) {
-      console.log('logged in');
-      window.location = '/project.html#/home';
-      return console.log($scope.user);
+      return $scope.loadUserSettings();
     });
+    $scope.loadUserSettings = function() {
+      url = "https://dailybandwidth.firebaseIO.com/" + $scope.user.login + "/settings";
+      $scope.settingsStore = new Firebase(url);
+      return $scope.settingsStore.on('value', function(settings) {
+        $scope.settings = settings.val();
+        return window.location = '/project.html#/home';
+      });
+    };
     return $scope.$on("angularFireAuth:logout", function(evt) {
-      console.log('logged out');
       return window.location = '/project.html#/login';
     });
   };

@@ -19,7 +19,7 @@ title: Project
         {[beginningOfWeek.clone().addDays(day).toString('MMM d')]}
     %tr{'ng-repeat'=>'project in bandwidths'}
       %td {[project.name]}
-      %td{'ng-repeat'=>'bandwidth in project.days track by $index', 'ng-controller'=>'app.BandwidthContainerController', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
+      %td{ 'ng-controller'=>'app.BandwidthContainerController', 'ng-repeat'=>'bandwidth in project.days track by $index', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
         .incrementors{'ng-show'=>'isEditEnabled'}
           %i.icon-chevron-down{'ng-click'=>'bandwidth = bandwidth - 1'}
           %i.icon-chevron-up{'ng-click'=>'bandwidth = bandwidth + 1'} 

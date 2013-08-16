@@ -1,8 +1,7 @@
 app.BandwidthContainerController = ($scope)->
-  $scope.isEditEnabled = false
-
-  $scope.$watch('bandwith',(newVal, oldVal)->
-    #$scope.bandwidthStore.set($scope.bandwidths)    
-    console.log('saved')
+  $scope.$watch('bandwidth',(newVal, oldVal)->
+    if newVal != oldVal
+      $scope.project.days[$scope.$index] = newVal
+      $scope.saveBandwidths()
   )
 

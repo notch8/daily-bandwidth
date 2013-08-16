@@ -3,14 +3,19 @@ app.MainController = ($scope, $route, angularFireAuth)->
   angularFireAuth.initialize(url, {scope: $scope, name: "user"})
 
   $scope.$on("angularFireAuth:login", (evt, user) ->
-    console.log 'logged in'
-    window.location = '/project.html#/home'
-    console.log $scope.user
+    $scope.loadUserSettings()
+  ) 
 
-  )
+  $scope.loadUserSettings= ->
+    url = "https://dailybandwidth.firebaseIO.com/#{$scope.user.login}/settings"
+    $scope.settingsStore = new Firebase(url)
+    $scope.settingsStore.on('value', (settings)->
+      $scope.settings = settings.val()
+      window.location = '/project.html#/home'
+    ) 
+
 
   $scope.$on("angularFireAuth:logout", (evt)->
-    console.log 'logged out'
     window.location = '/project.html#/login'
   )
 
