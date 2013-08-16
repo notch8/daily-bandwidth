@@ -64,8 +64,10 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
 (function() {
   app.EditableBandwidthController = function($scope) {
     $scope.isEditEnabled = false;
-    return $scope.$watch('weekday.hours', function(newVal) {
-      return $scope.settingsStore.set($scope.settings);
+    return $scope.$watch('weekday.hours', function(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        return $scope.settingsStore.set($scope.settings);
+      }
     });
   };
 
