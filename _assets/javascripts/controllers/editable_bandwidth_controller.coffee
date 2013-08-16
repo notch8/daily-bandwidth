@@ -9,8 +9,8 @@ app.EditableBandwidthController = ($scope)->
 
   $scope.decrement=->
     if $scope.hours >= 1 
-      $scope.settingsStore.child('defaultBandwidths').child($scope.weekday).set($scope.hours - 1)
+      $scope.weekday.hours -= 1
 
   $scope.increment=->
-    $scope.settingsStore.child('defaultBandwidths').child($scope.weekday).set($scope.hours + 1)
+    $scope.weekday.hours += 1
 

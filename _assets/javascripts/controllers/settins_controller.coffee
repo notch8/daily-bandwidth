@@ -43,24 +43,24 @@ app.SettingsController = ($scope, $timeout, SettingsStore)->
 
 
   $scope.defaults = {
-    # defaultBandwidths: [
-      # {name: 'Monday', hours: 0},
-      # {name: 'Tuesday',hours: 0},
-      # {name: 'Wednesday', hours: 0},
-      # {name: 'thursday', hours: 0},
-      # {name: 'friday', hours: 0},
-      # {name: 'saturday', hours: 0},
-      # {name: 'sunday', hours: 0}
-      # ]
+    defaultBandwidths: [
+      {name: 'Monday', hours: 0},
+      {name: 'Tuesday',hours: 0},
+      {name: 'Wednesday', hours: 0},
+      {name: 'thursday', hours: 0},
+      {name: 'friday', hours: 0},
+      {name: 'saturday', hours: 0},
+      {name: 'sunday', hours: 0}
+      ]
 
-    defaultBandwidths: 
-       Monday: 0
-       Tuesday: 0
-       Wednesday: 0
-       Thursday: 0
-       Friday: 0
-       Saturday: 0
-       Sunday: 0
+    # defaultBandwidths: 
+    #    Monday: 0
+    #    Tuesday: 0
+    #    Wednesday: 0
+    #    Thursday: 0
+    #    Friday: 0
+    #    Saturday: 0
+    #    Sunday: 0
     projects: []
     sharesWith: []
   }
