@@ -11,7 +11,7 @@ app.MainController = ($scope, $route, angularFireAuth)->
     $scope.settingsStore = new Firebase(url)
     $scope.settingsStore.on('value', (settings)->
       $scope.settings = settings.val()
-      window.location = '/project.html#/home'
+      # window.location = '/project.html#/home'
     ) 
 
 

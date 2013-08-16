@@ -5,35 +5,17 @@
     <p>Double tap to remove</p>
     <table class='table bandwidths'>
       <tr>
-        <th>
-          Monday
-        </th>
-        <th>
-          Tuesday
-        </th>
-        <th>
-          Wednesday
-        </th>
-        <th>
-          Thursday
-        </th>
-        <th>
-          Friday
-        </th>
-        <th>
-          Saturday
-        </th>
-        <th>
-          Sunday
+        <th ng-repeat='(weekday,hours) in settings.defaultBandwidths'>
+          {[weekday]}
         </th>
       </tr>
       <tr>
-        <td ng-controller='app.EditableBandwidthController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='weekday in settings.defaultBandwidths'>
+        <td ng-controller='app.EditableBandwidthController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='(weekday,hours) in settings.defaultBandwidths'>
           <div class='incrementors' ng-show='isEditEnabled'>
             <i class='icon-chevron-down' ng-click='decrement()'></i>
-            <i class='icon-chevron-up' ng-click='weekday.hours = weekday.hours + 1'></i>
+            <i class='icon-chevron-up' ng-click='increment()'></i>
           </div>
-          {[weekday.hours]}
+          {[hours]}
         </td>
       </tr>
     </table>

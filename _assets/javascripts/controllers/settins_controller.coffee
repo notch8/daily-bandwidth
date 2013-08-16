@@ -1,18 +1,21 @@
 app.SettingsController = ($scope, $timeout, SettingsStore)->
-  url = "https://dailybandwidth.firebaseIO.com/#{$scope.user.login}/settings"
-  $scope.settingsStore = new Firebase(url)
-  $scope.settingsStore.on('value', (settings)->
-    if settings.val() == null
-      $scope.settings = 
-        defaults
-    else
-      $scope.settings = settings.val()
+  $scope.$watch('user',(user)->
+    if user
+      url = "https://dailybandwidth.firebaseIO.com/#{$scope.user.login}/settings"
+      $scope.settingsStore = new Firebase(url)
+      $scope.settingsStore.on('value', (settings)->
+        if settings.val() == null
+          $scope.settings = 
+            defaults
+        else
+          $scope.settings = settings.val()
+          
+        setTimeout((->
+          $scope.$apply()
+        ),1) 
+      )
 
-    $scope.$apply
   )
-
-
-
   $scope.resetDefaults = ->
     $scope.settings = $scope.defaults
     console.log $scope.settings
@@ -40,15 +43,24 @@ app.SettingsController = ($scope, $timeout, SettingsStore)->
 
 
   $scope.defaults = {
-    defaultBandwidths: [
-      {name: 'Monday', hours: 0},
-      {name: 'Tuesday',hours: 0},
-      {name: 'Wednesday', hours: 0},
-      {name: 'thursday', hours: 0},
-      {name: 'friday', hours: 0},
-      {name: 'saturday', hours: 0},
-      {name: 'sunday', hours: 0}
-      ]
+    # defaultBandwidths: [
+      # {name: 'Monday', hours: 0},
+      # {name: 'Tuesday',hours: 0},
+      # {name: 'Wednesday', hours: 0},
+      # {name: 'thursday', hours: 0},
+      # {name: 'friday', hours: 0},
+      # {name: 'saturday', hours: 0},
+      # {name: 'sunday', hours: 0}
+      # ]
+
+    defaultBandwidths: 
+       Monday: 0
+       Tuesday: 0
+       Wednesday: 0
+       Thursday: 0
+       Friday: 0
+       Saturday: 0
+       Sunday: 0
     projects: []
     sharesWith: []
   }

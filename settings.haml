@@ -11,26 +11,14 @@ title: Project
     %p Double tap to remove
     %table.table.bandwidths
       %tr
-        %th
-          Monday
-        %th
-          Tuesday
-        %th
-          Wednesday
-        %th
-          Thursday
-        %th
-          Friday
-        %th
-          Saturday
-        %th
-          Sunday
+        %th{'ng-repeat'=>'(weekday,hours) in settings.defaultBandwidths'}
+          {[weekday]}
       %tr
-        %td{'ng-controller'=>'app.EditableBandwidthController', 'ng-repeat'=>'weekday in settings.defaultBandwidths', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
+        %td{'ng-controller'=>'app.EditableBandwidthController', 'ng-repeat'=>'(weekday,hours) in settings.defaultBandwidths', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
           .incrementors{'ng-show'=>'isEditEnabled'}
             %i.icon-chevron-down{'ng-click'=>'decrement()'}
-            %i.icon-chevron-up{'ng-click'=>'weekday.hours = weekday.hours + 1'} 
-          {[weekday.hours]}
+            %i.icon-chevron-up{'ng-click'=>'increment()'} 
+          {[hours]}
   
     %h3 Manage Projects
     .row{'ng-repeat'=>'project in settings.projects', 'ng-controller'=>'app.EditableProjectController'}
