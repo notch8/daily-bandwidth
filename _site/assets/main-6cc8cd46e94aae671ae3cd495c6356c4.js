@@ -118,11 +118,11 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
     };
     $scope.loadWeek = function() {
       var url;
-      console.log('loading week');
       $scope.today = new XDate();
       $scope.today_year = $scope.today.getFullYear();
       $scope.today_week = $scope.today.getWeek();
       $scope.today_day = $scope.today.getDay();
+      $scope.beginningOfWeek = $scope.today.clone().setWeek($scope.today_week, $scope.today_year);
       url = "" + $scope.baseUrl + "/" + $scope.today_year + "/" + $scope.today_week;
       $scope.bandwidthStore = new Firebase(url);
       return $scope.bandwidthStore.on('value', function(bandwidths) {
@@ -137,38 +137,20 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       });
     };
     $scope.loadDefaults = function() {
-      var day, _i, _len, _ref, _results;
+      var project, _i, _len, _ref, _results;
       $scope.bandwidths = [];
-      _ref = [0, 1, 2, 3, 4, 5, 6];
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        day = _ref[_i];
-        _results.push($scope.setupProjectsForDay(day));
-      }
-      return _results;
-    };
-    $scope.setupProjectsForDay = function(day) {
-      var date, project, _i, _len, _ref, _results;
-      date = new XDate();
-      date.setWeek($scope.today_week, $scope.today_year);
-      date.addDays(day);
-      $scope.bandwidths[day] = {
-        lastUpdated: null,
-        date: date,
-        projects: []
-      };
       _ref = $scope.settings.projects;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         project = _ref[_i];
-        _results.push($scope.settingForProjectAndDay(day, project));
+        _results.push($scope.setupDaysForProject(project));
       }
       return _results;
     };
-    $scope.settingForProjectAndDay = function(day, project) {
-      return $scope.bandwidths[day].projects.push({
+    $scope.setupDaysForProject = function(project) {
+      return $scope.bandwidths.push({
         name: project.name,
-        commitment: 0
+        days: [0, 0, 0, 0, 0, 0, 0]
       });
     };
     $scope.loadPreviousWeek = function() {

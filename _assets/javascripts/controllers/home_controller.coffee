@@ -14,11 +14,11 @@ app.HomeController = ($scope)->
     ) 
 
   $scope.loadWeek= ->
-    console.log 'loading week'
     $scope.today = new XDate()
     $scope.today_year = $scope.today.getFullYear()
     $scope.today_week = $scope.today.getWeek()
     $scope.today_day = $scope.today.getDay()
+    $scope.beginningOfWeek = $scope.today.clone().setWeek($scope.today_week, $scope.today_year)
     url = "#{$scope.baseUrl}/#{$scope.today_year}/#{$scope.today_week}"
     $scope.bandwidthStore = new Firebase(url)
     $scope.bandwidthStore.on('value',(bandwidths)->
@@ -35,18 +35,10 @@ app.HomeController = ($scope)->
 
   $scope.loadDefaults =->
     $scope.bandwidths = []
-    $scope.setupProjectsForDay(day) for day in [0,1,2,3,4,5,6]
+    $scope.setupDaysForProject(project) for project in $scope.settings.projects
 
-  $scope.setupProjectsForDay=(day)->
-    date = new XDate()
-    date.setWeek($scope.today_week, $scope.today_year)
-    date.addDays(day)
-    $scope.bandwidths[day] = {lastUpdated: null, date: date,  projects: []}
-    $scope.settingForProjectAndDay(day,project) for project in $scope.settings.projects
-
-  $scope.settingForProjectAndDay=(day, project)->
-    $scope.bandwidths[day].projects.push({name: project.name, commitment: 0})
-
+  $scope.setupDaysForProject=(project)->
+    $scope.bandwidths.push({name: project.name, days:[0,0,0,0,0,0,0]})
 
   $scope.loadPreviousWeek = ->
     console.log 'load previous'

@@ -4,36 +4,26 @@
   <a class='btn' ng-click='loadNextWeek()'>Next Week</a>
   <a class='btn' ng-click='duplicatePreviousWeek()'>Duplicate previous week</a>
   <a class='btn' ng-click='clearWeek()'>Clear</a>
-  <div class='row'>
-    <div class='span10 offset1'>
-      <div class='row'>
-        <div class='span2'>
-          Week of {[bandwidths[0].date.toString('MMMM dd')]}
-          <div class='row' ng-repeat='project in bandwidths[0].projects'>
-            <div class='span2'>
-              {[project.name]}
-            </div>
-          </div>
+  <table class='table'>
+    <tr>
+      <th>
+        Week of {[beginningOfWeek.toString('MMMM dd')]}
+      </th>
+      <th ng-repeat='day in [0,1,2,3,4,5,6]'>
+        {[beginningOfWeek.clone().addDays(day).toString('dddd')]}
+        {[beginningOfWeek.clone().addDays(day).toString('MMM d')]}
+      </th>
+    </tr>
+    <tr ng-repeat='project in bandwidths'>
+      <td>{[project.name]}</td>
+      <td ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='bandwidth in project.days track by $index'>
+        <div class='incrementors' ng-show='isEditEnabled'>
+          <i class='icon-chevron-down' ng-click='bandwidth = bandwidth - 1'></i>
+          <i class='icon-chevron-up' ng-click='bandwidth = bandwidth + 1'></i>
         </div>
-        <div class='span1' ng-repeat='day in bandwidths'>
-          <div class='row'>
-            <div class='span1'>
-              {[day.date.toString('dddd')]} -
-              {[day.date.toString('MMMM dd')]}
-            </div>
-          </div>
-          <div class='row' ng-repeat='project in day.projects'>
-            <div class='span1' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false'>
-              <div class='incrementors' ng-show='isEditEnabled'>
-                <i class='icon-chevron-down' ng-click='project.commitment = project.commitment - 1'></i>
-                <i class='icon-chevron-up' ng-click='project.commitment = project.commitment + 1'></i>
-              </div>
-              {[project.commitment]}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        {[bandwidth]}
+      </td>
+    </tr>
+  </table>
 </div>
 
