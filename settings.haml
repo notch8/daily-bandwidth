@@ -4,7 +4,7 @@ title: Project
 ---
 
 .row
-  .span6.offset3
+  .span6.offset2
 
     %h3 Default Bandwidth
     %p Click once to add one hour.
@@ -26,7 +26,7 @@ title: Project
         %th
           Sunday
       %tr
-        %td{'ng-controller'=>'app.BandwidthContainerController', 'ng-repeat'=>'weekday in settings.defaultBandwidths', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
+        %td{'ng-controller'=>'app.EditableBandwidthController', 'ng-repeat'=>'weekday in settings.defaultBandwidths', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
           .incrementors{'ng-show'=>'isEditEnabled'}
             %i.icon-chevron-down{'ng-click'=>'weekday.hours = weekday.hours - 1'}
             %i.icon-chevron-up{'ng-click'=>'weekday.hours = weekday.hours + 1'} 

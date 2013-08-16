@@ -1,5 +1,5 @@
 <div class='row'>
-  <div class='span6 offset3'>
+  <div class='span6 offset2'>
     <h3>Default Bandwidth</h3>
     <p>Click once to add one hour.</p>
     <p>Double tap to remove</p>
@@ -28,7 +28,7 @@
         </th>
       </tr>
       <tr>
-        <td ng-controller='app.BandwidthContainerController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='weekday in settings.defaultBandwidths'>
+        <td ng-controller='app.EditableBandwidthController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='weekday in settings.defaultBandwidths'>
           <div class='incrementors' ng-show='isEditEnabled'>
             <i class='icon-chevron-down' ng-click='weekday.hours = weekday.hours - 1'></i>
             <i class='icon-chevron-up' ng-click='weekday.hours = weekday.hours + 1'></i>
