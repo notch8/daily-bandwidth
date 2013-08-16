@@ -1,1 +1,39 @@
+<div id='dayView' ng-controller='app.HomeController'>
+  <a class='btn' ng-click='loadPreviousWeek()'>Previous Week</a>
+  <a class='btn' ng-click='loadThisWeek()'>This Week</a>
+  <a class='btn' ng-click='loadNextWeek()'>Next Week</a>
+  <a class='btn' ng-click='duplicatePreviousWeek()'>Duplicate previous week</a>
+  <a class='btn' ng-click='clearWeek()'>Clear</a>
+  <div class='row'>
+    <div class='span10 offset1'>
+      <div class='row'>
+        <div class='span2'>
+          Week of {[bandwidths[0].date.toString('MMMM dd')]}
+          <div class='row' ng-repeat='project in bandwidths[0].projects'>
+            <div class='span2'>
+              {[project.name]}
+            </div>
+          </div>
+        </div>
+        <div class='span1' ng-repeat='day in bandwidths'>
+          <div class='row'>
+            <div class='span1'>
+              {[day.date.toString('dddd')]} -
+              {[day.date.toString('MMMM dd')]}
+            </div>
+          </div>
+          <div class='row' ng-repeat='project in day.projects'>
+            <div class='span1' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false'>
+              <div class='incrementors' ng-show='isEditEnabled'>
+                <i class='icon-chevron-down' ng-click='project.commitment = project.commitment - 1'></i>
+                <i class='icon-chevron-up' ng-click='project.commitment = project.commitment + 1'></i>
+              </div>
+              {[project.commitment]}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 

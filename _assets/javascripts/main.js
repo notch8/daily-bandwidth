@@ -1,3 +1,4 @@
+//= require xdate
 //= require ui-bootstrap-0.5.0.min
 //= require project
 //= require_tree ./controllers

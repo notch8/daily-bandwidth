@@ -1,10 +1,5 @@
 ---
 project_name: 'Daily Bandwidth'
-navigation:
-  - text: 'Home'
-    url: '/index.html'
-  - text: 'Project'
-    url: '/project.html'
 ---
 
 !!!
@@ -33,21 +28,15 @@ navigation:
           .navContainer.pull-right{'ng-controller'=>'app.TopNavController'}
 
             %ul.nav.nav-pills.pull-right
-              {% for link in page.navigation %} 
-              {% if page.url == link.url %} 
-              %li{class: 'active'}
-                %a{:href=> "#"}
-                  {{link.text}}
-              {% else %} 
-              %li
-                %a{:href => "{{link.url}}"} {{link.text}}
-              {% endif %} 
-              {% endfor %} 
+            
+              %li{'ng-snow'=>'shouldShowHome'}
+                %a{href: '/project.html#/home', class: 'btn'} Home
+
+              %li{'ng-show'=>'shouldShowSettings'}
+                %a{href: '/project.html#/settings', class: 'btn'} Settings
 
               %li{'ng-controller'=>'app.LogoutController', 'ng-show'=>'shouldShowLogout'}
                 %a{'ng-click'=>'logout()', class: 'btn'} Logout
-              %li{'ng-show'=>'shouldShowSettings'}
-                %a{href: '/project.html#/settings', class: 'btn'} Settings
 
 
       #mainContent{'ng-controller'=>'app.MainController'}

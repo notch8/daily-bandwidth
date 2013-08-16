@@ -3,3 +3,32 @@ layout: partial
 title: Project 
 ---
 
+#dayView{'ng-controller'=>'app.HomeController'}
+  %a{'ng-click'=>'loadPreviousWeek()', class: 'btn'} Previous Week
+  %a{'ng-click'=>'loadThisWeek()', class: 'btn'} This Week
+  %a{'ng-click'=>'loadNextWeek()',class: 'btn'} Next Week
+  %a{'ng-click'=>'duplicatePreviousWeek()', class: 'btn'} Duplicate previous week
+  %a{'ng-click'=>'clearWeek()', class: 'btn'} Clear
+
+  .row
+    .span10.offset1
+      .row
+        .span2
+          Week of {[bandwidths[0].date.toString('MMMM dd')]}
+
+          .row{'ng-repeat'=>'project in bandwidths[0].projects'}
+            .span2
+              {[project.name]} 
+
+        .span1{'ng-repeat'=>'day in bandwidths'} 
+          .row
+            .span1
+              {[day.date.toString('dddd')]} - 
+              {[day.date.toString('MMMM dd')]}
+          .row{'ng-repeat'=>'project in day.projects'} 
+            .span1{'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
+              .incrementors{'ng-show'=>'isEditEnabled'}
+                %i.icon-chevron-down{'ng-click'=>'project.commitment = project.commitment - 1'}
+                %i.icon-chevron-up{'ng-click'=>'project.commitment = project.commitment + 1'} 
+  
+              {[project.commitment]}
