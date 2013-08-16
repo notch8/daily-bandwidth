@@ -30,7 +30,7 @@
       <tr>
         <td ng-controller='app.EditableBandwidthController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='weekday in settings.defaultBandwidths'>
           <div class='incrementors' ng-show='isEditEnabled'>
-            <i class='icon-chevron-down' ng-click='weekday.hours = weekday.hours - 1'></i>
+            <i class='icon-chevron-down' ng-click='decrement()'></i>
             <i class='icon-chevron-up' ng-click='weekday.hours = weekday.hours + 1'></i>
           </div>
           {[weekday.hours]}

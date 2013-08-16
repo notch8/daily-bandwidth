@@ -6,3 +6,8 @@ app.EditableBandwidthController = ($scope)->
       $scope.settingsStore.set($scope.settings)
   )
 
+
+  $scope.decrement=->
+    if $scope.weekday.hours >= 1 
+      $scope.weekday.hours -= 1
+

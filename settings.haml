@@ -28,7 +28,7 @@ title: Project
       %tr
         %td{'ng-controller'=>'app.EditableBandwidthController', 'ng-repeat'=>'weekday in settings.defaultBandwidths', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
           .incrementors{'ng-show'=>'isEditEnabled'}
-            %i.icon-chevron-down{'ng-click'=>'weekday.hours = weekday.hours - 1'}
+            %i.icon-chevron-down{'ng-click'=>'decrement()'}
             %i.icon-chevron-up{'ng-click'=>'weekday.hours = weekday.hours + 1'} 
           {[weekday.hours]}
   

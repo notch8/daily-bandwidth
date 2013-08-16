@@ -54,23 +54,33 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
 }).call(this);
 (function() {
   app.BandwidthContainerController = function($scope) {
-    return $scope.$watch('bandwidth', function(newVal, oldVal) {
+    $scope.$watch('bandwidth', function(newVal, oldVal) {
       if (newVal !== oldVal) {
         $scope.project.days[$scope.$index] = newVal;
         return $scope.saveBandwidths();
       }
     });
+    return $scope.decrement = function() {
+      if ($scope.bandwidth >= 1) {
+        return $scope.bandwidth -= 1;
+      }
+    };
   };
 
 }).call(this);
 (function() {
   app.EditableBandwidthController = function($scope) {
     $scope.isEditEnabled = false;
-    return $scope.$watch('weekday.hours', function(newVal, oldVal) {
+    $scope.$watch('weekday.hours', function(newVal, oldVal) {
       if (newVal !== oldVal) {
         return $scope.settingsStore.set($scope.settings);
       }
     });
+    return $scope.decrement = function() {
+      if ($scope.weekday.hours >= 1) {
+        return $scope.weekday.hours -= 1;
+      }
+    };
   };
 
 }).call(this);

@@ -5,3 +5,6 @@ app.BandwidthContainerController = ($scope)->
       $scope.saveBandwidths()
   )
 
+  $scope.decrement=->
+    if $scope.bandwidth >= 1 
+      $scope.bandwidth -= 1
