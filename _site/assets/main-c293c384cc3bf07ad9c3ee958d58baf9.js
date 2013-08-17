@@ -309,6 +309,8 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       if ($scope.nextSave) {
         now = new XDate();
         if (now > $scope.nextSave) {
+          console.log('saving');
+          console.log($scope.settings);
           $scope.settingsStore.set(angular.fromJson(angular.toJson($scope.settings)), function(error) {
             if (error) {
               return alertService.addError('Error.  we could not make your change.  Please try again.');
@@ -325,7 +327,10 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       }
     };
     $scope.resetDefaults = function() {
-      return $scope.settings = $scope.settingDefaults;
+      console.log('aaaaa');
+      console.log($scope.settingsDefaults);
+      $scope.settings = $scope.settingsDefaults;
+      return $scope.saveSettings();
     };
     $scope.addNewProject = function() {
       if (!$scope.settings.projects) {

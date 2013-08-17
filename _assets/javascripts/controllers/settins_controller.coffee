@@ -9,6 +9,8 @@ app.SettingsController = ($scope, $timeout, SettingsStore, alertService)->
       if $scope.nextSave
         now = new XDate()
         if now > $scope.nextSave
+          console.log 'saving'
+          console.log $scope.settings
           $scope.settingsStore.set(angular.fromJson(angular.toJson($scope.settings)), (error)->
             if error
               alertService.addError 'Error.  we could not make your change.  Please try again.'
@@ -21,8 +23,10 @@ app.SettingsController = ($scope, $timeout, SettingsStore, alertService)->
 
 
   $scope.resetDefaults = ->
-    $scope.settings = $scope.settingDefaults
-    #$scope.saveSettings()
+    console.log 'aaaaa'
+    console.log $scope.settingsDefaults
+    $scope.settings = $scope.settingsDefaults
+    $scope.saveSettings()
 
   $scope.addNewProject = ->
     $scope.settings.projects = [] unless $scope.settings.projects
