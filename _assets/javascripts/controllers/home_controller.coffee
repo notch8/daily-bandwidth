@@ -1,4 +1,4 @@
-app.HomeController = ($scope)->
+app.HomeController = ($scope, alertService)->
   $scope.$watch('user',(user, oldUser)->
     if user
       $scope.baseUrl = "https://dailybandwidth.firebaseIO.com/#{$scope.user.login}/weeks"
@@ -21,8 +21,26 @@ app.HomeController = ($scope)->
       )
   )
 
-  $scope.saveBandwidths=->
-    $scope.bandwidthStore.set(angular.fromJson(angular.toJson($scope.bandwidths)))
+
+  $scope.nextSave = null
+  $scope.saveBandwidths = ->
+    $scope.nextSave = new XDate()
+    $scope.nextSave.addSeconds(1)
+    $scope.checkSave()
+
+  $scope.checkSave = ->
+      if $scope.nextSave
+        now = new XDate()
+        if now > $scope.nextSave
+          $scope.settingsStore.set(angular.fromJson(angular.toJson($scope.bandwidths)), (error)->
+            if error
+              alertService.addError 'Error.  we could not make your change.  Please try again.'
+            else
+              alertService.addSuccess 'Success,  we updated your bandwidth.'      
+          )
+          $scope.nextSave = null
+        else
+          setTimeout((-> $scope.checkSave()),500) 
 
 
   $scope.loadDefaults =->

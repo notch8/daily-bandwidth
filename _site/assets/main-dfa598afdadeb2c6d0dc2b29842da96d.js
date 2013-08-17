@@ -137,7 +137,7 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
 
 }).call(this);
 (function() {
-  app.HomeController = function($scope) {
+  app.HomeController = function($scope, alertService) {
     $scope.$watch('user', function(user, oldUser) {
       var url;
       if (user) {
@@ -161,8 +161,31 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
         });
       }
     });
+    $scope.nextSave = null;
     $scope.saveBandwidths = function() {
-      return $scope.bandwidthStore.set(angular.fromJson(angular.toJson($scope.bandwidths)));
+      $scope.nextSave = new XDate();
+      $scope.nextSave.addSeconds(1);
+      return $scope.checkSave();
+    };
+    $scope.checkSave = function() {
+      var now;
+      if ($scope.nextSave) {
+        now = new XDate();
+        if (now > $scope.nextSave) {
+          $scope.settingsStore.set(angular.fromJson(angular.toJson($scope.bandwidths)), function(error) {
+            if (error) {
+              return alertService.addError('Error.  we could not make your change.  Please try again.');
+            } else {
+              return alertService.addSuccess('Success,  we updated your bandwidth.');
+            }
+          });
+          return $scope.nextSave = null;
+        } else {
+          return setTimeout((function() {
+            return $scope.checkSave();
+          }), 500);
+        }
+      }
     };
     $scope.loadDefaults = function() {
       var project, _i, _len, _ref, _results;
@@ -287,7 +310,11 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
         now = new XDate();
         if (now > $scope.nextSave) {
           $scope.settingsStore.set(angular.fromJson(angular.toJson($scope.settings)), function(error) {
-            return alertService.addSuccess('Success,  we updated your default bandwidth.');
+            if (error) {
+              return alertService.addError('Error.  we could not make your change.  Please try again.');
+            } else {
+              return alertService.addSuccess('Success,  we updated your settings.');
+            }
           });
           return $scope.nextSave = null;
         } else {
@@ -347,6 +374,7 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       if (expires == null) {
         expires = null;
       }
+      this.all.splice(0, 1);
       return this.all.push({
         type: 'error',
         msg: msg
@@ -362,18 +390,18 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
         type: 'success',
         msg: msg
       };
-      this.all.push(params);
-      return this.addExpiration(params, expires);
+      this.all.splice(0, 1);
+      return this.all.push(params);
     };
 
     AlertService.prototype.addNotice = function(msg, expires) {
       if (expires == null) {
         expires = 500;
       }
-      this.all.push({
+      this.all.splice(0, 1);
+      return this.all.push({
         msg: msg
       });
-      return this.addExpiration(this.all.indexOf(params), expires);
     };
 
     return AlertService;
