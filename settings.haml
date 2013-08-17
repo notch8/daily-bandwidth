@@ -5,14 +5,13 @@ title: Project
 
 .row
   .span6.offset2
-
     %h3 Default Bandwidth
     %p Click once to add one hour.
     %p Double tap to remove
     %table.table.bandwidths
       %tr
-        %th{'ng-repeat'=>'(weekday,hours) in settings.defaultBandwidths'}
-          {[weekday]}
+        %th{'ng-repeat'=>'weekday in settings.defaultBandwidths'}
+          {[weekday.name]}
       %tr
         %td{'ng-controller'=>'app.EditableBandwidthController', 'ng-repeat'=>'weekday in settings.defaultBandwidths', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
           .incrementors{'ng-show'=>'isEditEnabled'}

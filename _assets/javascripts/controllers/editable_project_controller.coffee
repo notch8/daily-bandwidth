@@ -6,7 +6,7 @@ app.EditableProjectController = ($scope)->
     $scope.inEditMode = true
 
   $scope.save = ->
-    $scope.settingsStore.set($scope.settings)
+    $scope.saveSettings()
     $scope.inEditMode = false
 
   $scope.cancel = ->
@@ -14,5 +14,5 @@ app.EditableProjectController = ($scope)->
 
   $scope.remove = ->
     $scope.settingsstore.projects.pop($scope.project)
-    $scope.settingsstore.set($scope.settings)
+    $scope.saveSettings()
 

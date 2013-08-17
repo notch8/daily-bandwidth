@@ -10,7 +10,7 @@
     <script src='https://cdn.firebase.com/v0/firebase.js' type='text/javascript'></script>
     <script src='https://cdn.firebase.com/v0/firebase-simple-login.js' type='text/javascript'></script>
     <script src='http://firebase.github.io/angularFire/angularFire.js' type='text/javascript'></script>
-    <script type="text/javascript" src="/assets/main-333e33f175e47f289fa9590334eef21d.js"></script>
+    <script type="text/javascript" src="/assets/main-2d459babd7bc44116df33ea723acb90f.js"></script>
     <link href='/favicon.ico' rel='shortcut icon'>
     <body>
       <div id='topNav'>
@@ -36,6 +36,12 @@
       <div id='mainContent' ng-controller='app.MainController'>
         <div class='row'>
           <div class='span10 offset1'>
+            <div ng-controller='app.AlertController'>
+              <div class='alert alert-{[alert.type]}' ng-repeat='alert in alerts' type='alert.type'>
+                {[alert.msg]}
+                <button class='close' data-dismiss='alert' ng-click='closeAlert($index)' type='button'>x</button>
+              </div>
+            </div>
             <h4>Header for Daily Bandwith</h4>
 <div ng-view></div>
 

@@ -1,16 +1,25 @@
 window.app = angular.module('dailybandwidth',['ngRoute', 'firebase', 'ui.bootstrap']).
+
 value('dailyBandwidthViewFirebaseURL', 'http://dailybandwidth.firebaseIO.com').
+
 factory('Weeks', (angularFireCollection, dailyBandwidthViewFirebaseURL)->
   angularFireCollection("#{dailyBandwidthViewFirebaseURL}/weeks")
 ).
+
 factory('SettingsStore', (angularFireCollection, dailyBandwidthViewFirebaseURL)->
   angularFireCollection("#{dailyBandwidthViewFirebaseURL}/settings")
 ).
+
+service('alertService',->
+  new app.AlertService
+).
+
 config(['$interpolateProvider',
   ($interpolateProvider) ->
     $interpolateProvider.startSymbol('{[')
     $interpolateProvider.endSymbol(']}')
 ]).
+
 config(($routeProvider, $locationProvider)->
   $routeProvider.when('/home',
     templateUrl: '/home.html'

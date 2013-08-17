@@ -1,30 +1,25 @@
-app.SettingsController = ($scope, $timeout, SettingsStore)->
-  $scope.$watch('user',(user)->
-    if user
-      url = "https://dailybandwidth.firebaseIO.com/#{$scope.user.login}/settings"
-      $scope.settingsStore = new Firebase(url)
-      $scope.settingsStore.on('value', (settings)->
-        if settings.val() == null
-          $scope.settings = 
-            defaults
+app.SettingsController = ($scope, $timeout, SettingsStore, alertService)->
+  $scope.nextSave = null
+  $scope.saveSettings = ->
+    $scope.nextSave = new XDate()
+    $scope.nextSave.addSeconds(1)
+    $scope.checkSave()
+
+  $scope.checkSave = ->
+      if $scope.nextSave
+        now = new XDate()
+        if now > $scope.nextSave
+          $scope.settingsStore.set(angular.fromJson(angular.toJson($scope.settings)), (error)->
+            alertService.addSuccess 'Success,  we updated your settings.'      
+          )
+          $scope.nextSave = null
         else
-          $scope.settings = settings.val()
-          
-        setTimeout((->
-          $scope.$apply()
-        ),1) 
-      )
+          setTimeout((-> $scope.checkSave()),500) 
 
-  )
+
   $scope.resetDefaults = ->
-    $scope.settings = $scope.defaults
-    console.log $scope.settings
-    $scope.settingsStore.set($scope.settings,(error)->
-      $scope.$apply
-      console.log 'done'
-    )
-    console.log('hello')
-
+    $scope.settings = $scope.settingDefaults
+    #$scope.saveSettings()
 
   $scope.addNewProject = ->
     $scope.settings.projects = [] unless $scope.settings.projects
@@ -38,29 +33,6 @@ app.SettingsController = ($scope, $timeout, SettingsStore)->
     $scope.settings.sharesWith.push(
       email: $scope.newEmail
     )
-    console.log($scope.settings)
-    $scope.settingsStore.set($scope.settings)
+    $scope.saveSettings()
 
 
-  $scope.defaults = {
-    defaultBandwidths: [
-      {name: 'Monday', hours: 0},
-      {name: 'Tuesday',hours: 0},
-      {name: 'Wednesday', hours: 0},
-      {name: 'thursday', hours: 0},
-      {name: 'friday', hours: 0},
-      {name: 'saturday', hours: 0},
-      {name: 'sunday', hours: 0}
-      ]
-
-    # defaultBandwidths: 
-    #    Monday: 0
-    #    Tuesday: 0
-    #    Wednesday: 0
-    #    Thursday: 0
-    #    Friday: 0
-    #    Saturday: 0
-    #    Sunday: 0
-    projects: []
-    sharesWith: []
-  }
