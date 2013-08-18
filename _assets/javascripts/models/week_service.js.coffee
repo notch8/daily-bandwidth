@@ -88,13 +88,15 @@ class Week
     @store = new Firebase(@firebaseURL.url())
     @store.on('value',(dataset)->
       self.load(dataset)
-      if !@projects
+      console.log dataset.val()
+      if !dataset.val()
         self.loadDefaults(defaultProjects)
 
       $scope.doneLoadingWeek()
     )
 
   addProject: (project) ->
+    console.log 'adding project'
     bandwidths = if project.days then project.days else [0,0,0,0,0,0,0]
     @projects.push({name: project.name, days: bandwidths})
 
@@ -110,5 +112,10 @@ class Week
 
   loadDefaults: (defaultProjects)->
     @addProject(project) for project in defaultProjects
+
+  reset: (defaultProjects) ->
+    @projects = []
+    @loadDefaults(defaultProjects)
+    @save()
 
 

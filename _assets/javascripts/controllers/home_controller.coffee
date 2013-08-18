@@ -28,48 +28,14 @@ app.HomeController = ($scope, weekService, alertService)->
 
   $scope.saveBandwidths = ->
     console.log 'saving'
-    # $scope.nextSave = new XDate()
-    # $scope.nextSave.addSeconds(1)
-    # $scope.checkSave()
+    $scope.week.save()
 
   $scope.duplicatePreviousWeek = ->
     console.log 'duplicating'
-    # date = $scope.today.clone().addWeeks(-1)
-    # store = $scope.getBandwidthStore(date.getWeek(), date.getFullYear())
-    # store.on('value',(bandwidths)->
-    #   $scope.bandwidths = angular.fromJson(angular.toJson(bandwidths.val()))
-    # )
-
 
   $scope.clearWeek = ->
     console.log 'clearing'
-  # $scope.setupBandwidthTable =->
-  #   $scope.bandwidthStore = $scope.getBandwidthStore()
-  #   $scope.bandwidthStore.on('value',(bandwidths)->
-  #     $scope.bandwidths = angular.fromJson(angular.toJson(bandwidths.val()))
-  #     console.log 'here are the bandwidths'
-  #     console.log $scope.bandwidths
-  #     if $scope.bandwidths == null
-  #       $scope.loadDefaults()
-
-  #     setTimeout((->
-  #       $scope.$apply()
-  #     ),1)
-  #   )
-
-  # $scope.getBandwidthStore = (weekNumber, year)->
-  #   weekNumber ||= $scope.today_week
-  #   year ||= $scope.today_year
-  #   baseUrl = "https://dailybandwidth.firebaseIO.com/#{$scope.user.login}/weeks"
-  #   url = "#{baseUrl}/#{year}/#{weekNumber}"
-  #   console.log url
-  #   new Firebase(url)
-
-  # $scope.parseDate = ->
-  #   $scope.today_year = $scope.today.getFullYear()
-  #   $scope.today_week = $scope.today.getWeek()
-  #   $scope.today_day = $scope.today.getDay()
-  #   $scope.beginningOfWeek = $scope.today.clone().setWeek($scope.today_week, $scope.today_year)
+    $scope.week.reset($scope.settings.projects)
 
   # $scope.checkSave = ->
   #     if $scope.nextSave

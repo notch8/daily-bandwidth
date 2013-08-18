@@ -161,13 +161,15 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       return $scope.week = weekService.getNext($scope.week, $scope);
     };
     $scope.saveBandwidths = function() {
-      return console.log('saving');
+      console.log('saving');
+      return $scope.week.save();
     };
     $scope.duplicatePreviousWeek = function() {
       return console.log('duplicating');
     };
     return $scope.clearWeek = function() {
-      return console.log('clearing');
+      console.log('clearing');
+      return $scope.week.reset($scope.settings.projects);
     };
   };
 
@@ -491,7 +493,8 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       this.store = new Firebase(this.firebaseURL.url());
       return this.store.on('value', function(dataset) {
         self.load(dataset);
-        if (!this.projects) {
+        console.log(dataset.val());
+        if (!dataset.val()) {
           self.loadDefaults(defaultProjects);
         }
         return $scope.doneLoadingWeek();
@@ -500,6 +503,7 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
 
     Week.prototype.addProject = function(project) {
       var bandwidths;
+      console.log('adding project');
       bandwidths = project.days ? project.days : [0, 0, 0, 0, 0, 0, 0];
       return this.projects.push({
         name: project.name,
@@ -535,6 +539,12 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
         _results.push(this.addProject(project));
       }
       return _results;
+    };
+
+    Week.prototype.reset = function(defaultProjects) {
+      this.projects = [];
+      this.loadDefaults(defaultProjects);
+      return this.save();
     };
 
     return Week;
