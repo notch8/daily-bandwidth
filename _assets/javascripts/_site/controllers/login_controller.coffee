@@ -1,2 +1,0 @@
-app.LoginController = ($scope)->
-  #login
