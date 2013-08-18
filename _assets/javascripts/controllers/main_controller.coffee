@@ -25,15 +25,20 @@ app.MainController = ($scope, $route, angularFireAuth)->
     window.location = '/project.html#/login'
   )
 
+  $scope.$on("angularFireAuth:login", (evt)->
+    if window.location.hash == '#/login'
+      window.location = '/project.html#/home'
+  )
+
   $scope.settingsDefaults = {
     defaultBandwidths: [
       {name: 'Monday', hours: 0},
       {name: 'Tuesday',hours: 0},
       {name: 'Wednesday', hours: 0},
-      {name: 'thursday', hours: 0},
-      {name: 'friday', hours: 0},
-      {name: 'saturday', hours: 0},
-      {name: 'sunday', hours: 0}
+      {name: 'Thursday', hours: 0},
+      {name: 'Friday', hours: 0},
+      {name: 'Saturday', hours: 0},
+      {name: 'Sunday', hours: 0}
     ]
     projects: []
     sharesWith: []

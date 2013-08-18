@@ -15,5 +15,8 @@ class app.AlertService
     @all.splice(0,1)
     @all.push({msg: msg})
 
+  clear: ->
+    @all = []
+
 
 
