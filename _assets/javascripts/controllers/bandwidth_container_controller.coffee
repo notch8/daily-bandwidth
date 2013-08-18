@@ -1,10 +1,9 @@
 app.BandwidthContainerController = ($scope)->
-  $scope.$watch('bandwidth',(newVal, oldVal)->
+  $scope.$watch('day.hours',(newVal, oldVal)->
     if newVal != oldVal
-      $scope.project.days[$scope.$index] = newVal
       $scope.saveBandwidths()
   )
 
   $scope.decrement=->
-    if $scope.bandwidth >= 1 
-      $scope.bandwidth -= 1
+    if $scope.day.hours >= 1 
+      $scope.day.hours -= 1

@@ -63,15 +63,14 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
 }).call(this);
 (function() {
   app.BandwidthContainerController = function($scope) {
-    $scope.$watch('bandwidth', function(newVal, oldVal) {
+    $scope.$watch('day.hours', function(newVal, oldVal) {
       if (newVal !== oldVal) {
-        $scope.project.days[$scope.$index] = newVal;
         return $scope.saveBandwidths();
       }
     });
     return $scope.decrement = function() {
-      if ($scope.bandwidth >= 1) {
-        return $scope.bandwidth -= 1;
+      if ($scope.day.hours >= 1) {
+        return $scope.day.hours -= 1;
       }
     };
   };
@@ -147,9 +146,7 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       }
     });
     $scope.doneLoadingWeek = function() {
-      return setTimeout((function() {
-        return $scope.$apply();
-      }), 1);
+      return $scope.$apply();
     };
     $scope.loadPreviousWeek = function() {
       return $scope.week = weekService.getPrevious($scope.week, $scope);
@@ -390,10 +387,10 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       return week;
     };
 
-    WeekService.prototype.getNext = function(week) {
-      var currentWeek, startDay, _base, _name;
+    WeekService.prototype.getNext = function(week, $scope) {
+      var currentWeek, projects, startDay, _base, _name;
       console.log('get next week');
-      startDay = week.clone().addWeeks(1);
+      startDay = week.startDay.clone().addWeeks(1);
       (_base = this.years)[_name = startDay.getFullYear()] || (_base[_name] = new Year(startDay.getFullYear(), firebaseURL));
       currentWeek = startDay.getWeek();
       if (currentWeek === 52) {
@@ -401,14 +398,15 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       } else {
         week = this.years[startDay.getFullYear()].weeks[currentWeek - 1];
       }
-      week.loadFromStore();
+      projects = this.settings ? this.settings.projects : null;
+      week.loadFromStore(projects, $scope);
       return week;
     };
 
-    WeekService.prototype.getPrevious = function(week) {
-      var currentWeek, startDay, _base, _name;
+    WeekService.prototype.getPrevious = function(week, $scope) {
+      var currentWeek, projects, startDay, _base, _name;
       console.log('get previous');
-      startDay = week.clone().addWeeks(-1);
+      startDay = week.startDay.clone().addWeeks(-1);
       (_base = this.years)[_name = startDay.getFullYear()] || (_base[_name] = new Year(startDay.getFullYear(), firebaseURL));
       currentWeek = startDay.getWeek();
       if (currentWeek === 1) {
@@ -416,7 +414,8 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       } else {
         week = this.years[startDay.getFullYear()].weeks[currentWeek - 1];
       }
-      week.loadFromStore();
+      projects = this.settings ? this.settings.projects : null;
+      week.loadFromStore(projects, $scope);
       return week;
     };
 
@@ -490,21 +489,50 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
     Week.prototype.loadFromStore = function(defaultProjects, $scope) {
       var self;
       self = this;
+      console.log(this.firebaseURL.url());
       this.store = new Firebase(this.firebaseURL.url());
       return this.store.on('value', function(dataset) {
-        self.load(dataset);
-        console.log(dataset.val());
-        if (!dataset.val()) {
+        if (dataset.val()) {
+          self.load(dataset);
+        } else if (!this.projects) {
           self.loadDefaults(defaultProjects);
         }
-        return $scope.doneLoadingWeek();
+        return setTimeout((function() {
+          return $scope.doneLoadingWeek();
+        }), 1);
       });
     };
 
     Week.prototype.addProject = function(project) {
       var bandwidths;
-      console.log('adding project');
-      bandwidths = project.days ? project.days : [0, 0, 0, 0, 0, 0, 0];
+      if (project.days) {
+        bandwidths = project.days;
+      } else {
+        bandwidths = [
+          {
+            name: 'Monday',
+            hours: 0
+          }, {
+            name: 'Tuesday',
+            hours: 0
+          }, {
+            name: 'Wednesday',
+            hours: 0
+          }, {
+            name: 'Thursday',
+            hours: 0
+          }, {
+            name: 'Friday',
+            hours: 0
+          }, {
+            name: 'Saturday',
+            hours: 0
+          }, {
+            name: 'Sunday',
+            hours: 0
+          }
+        ];
+      }
       return this.projects.push({
         name: project.name,
         days: bandwidths
@@ -524,11 +552,11 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
     };
 
     Week.prototype.save = function() {
-      return this.store.set(this.projects);
+      return this.store.set(angular.fromJson(angular.toJson(this.projects)));
     };
 
     Week.prototype.load = function(dataset) {
-      return this.projects = dataset.val();
+      return this.projects = angular.fromJson(angular.toJson(dataset.val()));
     };
 
     Week.prototype.loadDefaults = function(defaultProjects) {
@@ -536,7 +564,7 @@ angular.module("ui.bootstrap",["ui.bootstrap.transition","ui.bootstrap.collapse"
       _results = [];
       for (_i = 0, _len = defaultProjects.length; _i < _len; _i++) {
         project = defaultProjects[_i];
-        _results.push(this.addProject(project));
+        _results.push(this.addProject(angular.fromJson(angular.toJson(project))));
       }
       return _results;
     };

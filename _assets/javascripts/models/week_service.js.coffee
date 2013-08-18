@@ -18,28 +18,32 @@ class app.WeekService
     week.loadFromStore(projects, $scope)
     week
 
-  getNext: (week) ->
+  getNext: (week, $scope) ->
     console.log 'get next week'  
-    startDay = week.clone().addWeeks(1)
+    startDay = week.startDay.clone().addWeeks(1)
     @years[startDay.getFullYear()] ||= new Year(startDay.getFullYear(), firebaseURL)
     currentWeek = startDay.getWeek()
     if currentWeek == 52
       week = @years[startDay.getFullYear()].weeks[0]
     else
       week = @years[startDay.getFullYear()].weeks[currentWeek - 1]
-    week.loadFromStore()
+
+    projects = if @settings then @settings.projects else null
+    week.loadFromStore(projects, $scope)
     week
 
-  getPrevious: (week) ->
+  getPrevious: (week, $scope) ->
     console.log 'get previous'
-    startDay = week.clone().addWeeks(-1)
+    startDay = week.startDay.clone().addWeeks(-1)
     @years[startDay.getFullYear()] ||= new Year(startDay.getFullYear(), firebaseURL)
     currentWeek = startDay.getWeek()
     if currentWeek == 1
       week = @years[startDay.getFullYear()].weeks[52]
     else
       week = @years[startDay.getFullYear()].weeks[currentWeek - 1]
-    week.loadFromStore()
+    projects = if @settings then @settings.projects else null
+
+    week.loadFromStore(projects, $scope)
     week
 
 class FirebaseUrl
@@ -85,19 +89,32 @@ class Week
 
   loadFromStore:(defaultProjects, $scope)->  
     self = this
+    console.log @firebaseURL.url()
     @store = new Firebase(@firebaseURL.url())
     @store.on('value',(dataset)->
-      self.load(dataset)
-      console.log dataset.val()
-      if !dataset.val()
+      if dataset.val()
+        self.load(dataset)
+      else if !@projects 
         self.loadDefaults(defaultProjects)
 
-      $scope.doneLoadingWeek()
+      setTimeout((->
+        $scope.doneLoadingWeek()
+      ),1)
     )
 
   addProject: (project) ->
-    console.log 'adding project'
-    bandwidths = if project.days then project.days else [0,0,0,0,0,0,0]
+    if project.days 
+      bandwidths = project.days
+    else 
+      bandwidths = [
+        {name: 'Monday', hours: 0},
+        {name: 'Tuesday', hours: 0},
+        {name: 'Wednesday', hours: 0},
+        {name: 'Thursday', hours: 0},
+        {name: 'Friday', hours: 0},
+        {name: 'Saturday', hours: 0},
+        {name: 'Sunday', hours: 0}
+      ]
     @projects.push({name: project.name, days: bandwidths})
 
   cloneProjects: (week) ->
@@ -105,13 +122,13 @@ class Week
     addProject(project) for project in week.projects
 
   save: ->
-    @store.set(@projects)
+    @store.set(angular.fromJson(angular.toJson(@projects)))
 
   load: (dataset)->
-    @projects = dataset.val()
+    @projects = angular.fromJson(angular.toJson(dataset.val()))
 
   loadDefaults: (defaultProjects)->
-    @addProject(project) for project in defaultProjects
+    @addProject(angular.fromJson(angular.toJson(project))) for project in defaultProjects
 
   reset: (defaultProjects) ->
     @projects = []

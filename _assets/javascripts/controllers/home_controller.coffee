@@ -12,9 +12,7 @@ app.HomeController = ($scope, weekService, alertService)->
   )
 
   $scope.doneLoadingWeek = ->
-    setTimeout((->
-      $scope.$apply()
-    ),1)
+    $scope.$apply()
 
   $scope.loadPreviousWeek = ->
     $scope.week = weekService.getPrevious($scope.week, $scope)
