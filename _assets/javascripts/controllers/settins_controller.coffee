@@ -32,6 +32,7 @@ app.SettingsController = ($scope, $timeout, alertService)->
       name: null
       commitment: null
       commitment_scope: null
+      newRecord: true
 
   $scope.addShare = ->
     $scope.settings.sharesWith = [] unless $scope.settings.sharesWith

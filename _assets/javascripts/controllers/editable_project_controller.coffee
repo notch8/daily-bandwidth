@@ -1,5 +1,8 @@
 app.EditableProjectController = ($scope)->
-  $scope.inEditMode = false
+  if $scope.project.newRecord
+    $scope.inEditMode = true
+  else
+    $scope.inEditMode = false
   $scope.commitmentScopes = ['week', 'month']
 
   $scope.enableEdit = ->
@@ -8,6 +11,7 @@ app.EditableProjectController = ($scope)->
   $scope.save = ->
     $scope.saveSettings()
     $scope.inEditMode = false
+    $scope.project.newRecord = false
 
   $scope.cancel = ->
     $scope.inEditMode = false
