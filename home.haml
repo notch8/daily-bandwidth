@@ -13,11 +13,11 @@ title: Project
   %table.table.bandwidths
     %tr
       %th
-        Week of {[beginningOfWeek.toString('MMMM dd')]}
+        Week of {[week.startDay.toString('MMMM dd')]}
       %th{'ng-repeat'=>'day in [0,1,2,3,4,5,6]'}
-        {[beginningOfWeek.clone().addDays(day).toString('dddd')]}
-        {[beginningOfWeek.clone().addDays(day).toString('MMM d')]}
-    %tr{'ng-repeat'=>'project in bandwidths'}
+        {[week.startDay.clone().addDays(day).toString('dddd')]}
+        {[week.startDay.clone().addDays(day).toString('MMM d')]}
+    %tr{'ng-repeat'=>'project in week.projects'}
       %td {[project.name]}
       %td{ 'ng-controller'=>'app.BandwidthContainerController', 'ng-repeat'=>'bandwidth in project.days track by $index', 'ng-mouseenter'=>'isEditEnabled = true', 'ng-mouseleave'=>'isEditEnabled = false'}
         .incrementors{'ng-show'=>'isEditEnabled'}

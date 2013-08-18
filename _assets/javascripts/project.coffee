@@ -1,13 +1,9 @@
 window.app = angular.module('dailybandwidth',['ngRoute', 'firebase', 'ui.bootstrap']).
 
-value('dailyBandwidthViewFirebaseURL', 'http://dailybandwidth.firebaseIO.com').
+value('firebaseURL', 'http://dailybandwidth.firebaseIO.com').
 
-factory('Weeks', (angularFireCollection, dailyBandwidthViewFirebaseURL)->
-  angularFireCollection("#{dailyBandwidthViewFirebaseURL}/weeks")
-).
-
-factory('SettingsStore', (angularFireCollection, dailyBandwidthViewFirebaseURL)->
-  angularFireCollection("#{dailyBandwidthViewFirebaseURL}/settings")
+service('weekService', (firebaseURL)->
+  new app.WeekService(firebaseURL)
 ).
 
 service('alertService',->

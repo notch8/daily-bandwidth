@@ -1,4 +1,4 @@
-app.SettingsController = ($scope, $timeout, SettingsStore, alertService)->
+app.SettingsController = ($scope, $timeout, alertService)->
   $scope.nextSave = null
   $scope.saveSettings = ->
     $scope.nextSave = new XDate()
@@ -9,8 +9,6 @@ app.SettingsController = ($scope, $timeout, SettingsStore, alertService)->
       if $scope.nextSave
         now = new XDate()
         if now > $scope.nextSave
-          console.log 'saving'
-          console.log $scope.settings
           $scope.settingsStore.set(angular.fromJson(angular.toJson($scope.settings)), (error)->
             if error
               alertService.addError 'Error.  we could not make your change.  Please try again.'

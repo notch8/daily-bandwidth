@@ -7,14 +7,14 @@
   <table class='table bandwidths'>
     <tr>
       <th>
-        Week of {[beginningOfWeek.toString('MMMM dd')]}
+        Week of {[week.startDay.toString('MMMM dd')]}
       </th>
       <th ng-repeat='day in [0,1,2,3,4,5,6]'>
-        {[beginningOfWeek.clone().addDays(day).toString('dddd')]}
-        {[beginningOfWeek.clone().addDays(day).toString('MMM d')]}
+        {[week.startDay.clone().addDays(day).toString('dddd')]}
+        {[week.startDay.clone().addDays(day).toString('MMM d')]}
       </th>
     </tr>
-    <tr ng-repeat='project in bandwidths'>
+    <tr ng-repeat='project in week.projects'>
       <td>{[project.name]}</td>
       <td ng-controller='app.BandwidthContainerController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='bandwidth in project.days track by $index'>
         <div class='incrementors' ng-show='isEditEnabled'>
