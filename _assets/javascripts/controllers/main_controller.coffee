@@ -1,6 +1,6 @@
 app.MainController = ($scope, $route, angularFireAuth)->
   url = 'https://dailybandwidth.firebaseIO.com'
-  angularFireAuth.initialize(url, {scope: $scope, name: "user"})
+  angularFireAuth.initialize(url, {scope: $scope, name: "user",  path: "/login"})
 
   $scope.$on("angularFireAuth:login", (evt, user) ->
     $scope.loadUserSettings()

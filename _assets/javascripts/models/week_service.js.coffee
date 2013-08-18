@@ -13,7 +13,6 @@ class app.WeekService
 
   thisWeek: ($scope) ->
     week = @years[@currentDate.getFullYear()].weeks[@currentDate.getWeek() - 1]
-    console.log(@settings)
     projects = if @settings then @settings.projects else null
     week.loadFromStore(projects, $scope)
     week

@@ -21,8 +21,6 @@ app.SettingsController = ($scope, $timeout, alertService)->
 
 
   $scope.resetDefaults = ->
-    console.log 'aaaaa'
-    console.log $scope.settingsDefaults
     $scope.settings = $scope.settingsDefaults
     $scope.saveSettings()
 

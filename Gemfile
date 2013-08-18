@@ -3,6 +3,7 @@ source "http://rubygems.org"
 gem "simplegem"
 
 gem 'coffee-script'
+gem 'github-pages'
 gem "jekyll"
 gem "jekyll-haml"
 gem 'jekyll-assets'
