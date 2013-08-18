@@ -13,4 +13,5 @@ sass:
   syntax: scss
 
 assets:
+  cachebust: soft
   debug: true
