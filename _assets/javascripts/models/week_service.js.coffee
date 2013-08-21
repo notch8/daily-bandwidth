@@ -90,7 +90,7 @@ class Week
     @store.on('value',(dataset)->
       if dataset.val()
         self.load(dataset)
-      else if !@projects 
+      else if (self.projects.length == 0)
         self.loadDefaults(defaultProjects)
 
       setTimeout((->
