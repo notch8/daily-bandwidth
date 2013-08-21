@@ -1,0 +1,29 @@
+<div id='dayView' ng-controller='app.HomeController'>
+  <a class='btn' ng-click='loadPreviousWeek()'>Previous Week</a>
+  <a class='btn' ng-click='loadThisWeek()'>This Week</a>
+  <a class='btn' ng-click='loadNextWeek()'>Next Week</a>
+  <a class='btn' ng-click='duplicatePreviousWeek()'>Duplicate previous week</a>
+  <a class='btn' ng-click='clearWeek()'>Clear</a>
+  <table class='table bandwidths'>
+    <tr>
+      <th>
+        Week of {[week.startDay.toString('MMMM dd')]}
+      </th>
+      <th ng-repeat='day in [0,1,2,3,4,5,6]'>
+        {[week.startDay.clone().addDays(day).toString('dddd')]}
+        {[week.startDay.clone().addDays(day).toString('MMM d')]}
+      </th>
+    </tr>
+    <tr ng-repeat='project in week.projects'>
+      <td>{[project.name]}</td>
+      <td ng-controller='app.BandwidthContainerController' ng-mouseenter='isEditEnabled = true' ng-mouseleave='isEditEnabled = false' ng-repeat='day in project.days'>
+        <div class='incrementors' ng-show='isEditEnabled'>
+          <i class='icon-chevron-down' ng-click='decrement()'></i>
+          <i class='icon-chevron-up' ng-click='day["hours"] = day["hours"] + 1'></i>
+        </div>
+        {[day.hours]}
+      </td>
+    </tr>
+  </table>
+</div>
+

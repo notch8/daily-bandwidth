@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app='dailybandwidth'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='Content-type'>
+    <title>Index</title>
+    <link rel="stylesheet" href="/assets/bootstrap.min-14f7c4fa67ccb5aeefbd17721dc4fecf.css">
+<link rel="stylesheet" href="/assets/main-b6123a3dba20b0e75eefc3a2d1afc770.css">
+    <link rel="stylesheet" href="/assets/bootstrap_and_overrides-3d5288889fbf42f64ac5c8b621b21230.css">
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular.min.js' type='text/javascript'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js' type='text/javascript'></script>
+    <script src='https://cdn.firebase.com/v0/firebase.js' type='text/javascript'></script>
+    <script src='https://cdn.firebase.com/v0/firebase-simple-login.js' type='text/javascript'></script>
+    <script src='http://firebase.github.io/angularFire/angularFire.js' type='text/javascript'></script>
+    <script src="/assets/xdate-76c58b3e53eb1a0767a38829756d1bc2.js"></script>
+<script src="/assets/ui-bootstrap-0.5.0.min-85bdca2cba49d30caa1f1027c8dfe7dc.js"></script>
+<script src="/assets/project-649c2e892c054731916983332d4b670a.js"></script>
+<script src="/assets/controllers/alert_controller-caebeaf80d6cd7d1c2728eaa43b8b211.js"></script>
+<script src="/assets/controllers/bandwidth_container_controller-071a7ecb3ec069795a4bb7ea599b4256.js"></script>
+<script src="/assets/controllers/editable_bandwidth_controller-4f137ea8fdd5841f316c3c6a2ac841ea.js"></script>
+<script src="/assets/controllers/editable_project_controller-5df606c552d802fd7a8b2300e6c21f20.js"></script>
+<script src="/assets/controllers/editable_sharing_controller-0189d676468bd9437bff998630184781.js"></script>
+<script src="/assets/controllers/github_login_controller-c96a93479691f5a5bc2cf0372dc19182.js"></script>
+<script src="/assets/controllers/home_controller-39fb4c3366a71d4b7b4b18339bfae27a.js"></script>
+<script src="/assets/controllers/login_controller-f880a2b6ea07d4bcfd699e40b5e44c6f.js"></script>
+<script src="/assets/controllers/logout_controller-022ce7f69b0ba80b8df4ee860f089571.js"></script>
+<script src="/assets/controllers/main_controller-92ed335acb647c66e6f43d3efc35c8f3.js"></script>
+<script src="/assets/controllers/settins_controller-6dd2a214444d58d6deef277f191c1369.js"></script>
+<script src="/assets/controllers/top_nav_controller-ae19623f00a2476557c6255152202b0b.js"></script>
+<script src="/assets/models/alert_service-9a72f9f121a6d5e5ba5e8c375079b4c7.js"></script>
+<script src="/assets/models/week_service-229e3e8dc9041bfc08fa497c1fa93cc4.js"></script>
+<script src="/assets/main-626178ec68f65135a0ac3fdcf5095e69.js"></script>
+    <link href='/favicon.ico' rel='shortcut icon'>
+    <body>
+      <div id='topNav'>
+        <div class='row'>
+          <div class='pull-left'>
+            <img src="/assets/logo_notch8_small-be99de2380197a5b9ca5bdc1bd62ca2e.gif">
+          </div>
+          <div class='navContainer pull-right' ng-controller='app.TopNavController'>
+            <ul class='nav nav-pills pull-right'>
+              <li ng-snow='shouldShowHome'>
+                <a class='btn' href='/project.html#/home'>Home</a>
+              </li>
+              <li ng-show='shouldShowSettings'>
+                <a class='btn' href='/project.html#/settings'>Settings</a>
+              </li>
+              <li ng-controller='app.LogoutController' ng-show='shouldShowLogout'>
+                <a class='btn' ng-click='logout()'>Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id='mainContent' ng-controller='app.MainController'>
+        <div class='row'>
+          <div class='span10 offset1'>
+            <div ng-controller='app.AlertController'>
+              <div class='alert alert-{[alert.type]}' ng-repeat='alert in alerts' type='alert.type'>
+                {[alert.msg]}
+                <button class='close' data-dismiss='alert' ng-click='closeAlert($index)' type='button'>x</button>
+              </div>
+            </div>
+            <div id='index'></div>
+
+          </div>
+        </div>
+      </div>
+      <div id='footer'>
+        <div class='row'>
+          <div class='span11 offset1'>
+            copyright © 2013 Notch8 and licensed under the
+            <a href='http://creativecommons.org/licenses/by-sa/3.0/us/'>creative commons attribution-share alike license</a>
+          </div>
+        </div>
+      </div>
+    </body>
+  </head>
+</html>
